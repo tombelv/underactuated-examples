@@ -8,6 +8,7 @@ This is a dynamic simulation of a 2R manipulator in a vertical position, it uses
 It requires to install 
 * pinocchio
 * pybullet
+
 which can be install via `pip install pybullet pin`.
 
 The example can be executed by running (from the main repo directory):
