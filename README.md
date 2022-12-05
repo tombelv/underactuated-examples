@@ -9,7 +9,10 @@ It requires to install
 * pinocchio
 * pybullet
 
-which can be install via `pip install pybullet pin`.
+which can be install via 
+```
+pip install pybullet pin
+```
 
 The example can be executed by running (from the main repo directory):
 ```
