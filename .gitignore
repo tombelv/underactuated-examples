@@ -1,0 +1,6 @@
+casadi-matlab/
+pybullet-pinocchio-2R/__pycache__/
+
+*.avi
+*.mp4
+
