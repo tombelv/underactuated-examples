@@ -14,7 +14,7 @@ from dataclasses import dataclass
 def simulationSetup(simDT):
 
     physicsClient = pb.connect(pb.GUI) 
-#    physicsClient = pb.connect(pb.DIRECT) # for non-graphical version
+    # physicsClient = pb.connect(pb.DIRECT) # for non-graphical version
     pb.setAdditionalSearchPath(pybullet_data.getDataPath()) 
 
     # set camera angle and position
