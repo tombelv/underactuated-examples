@@ -33,7 +33,7 @@ python pybullet-pinocchio-2R
 Example of multiple shooting trajectory optimization for the balancing of a planar single rigid body using contact forces.
 
 <div align="center">
-	<video src="multiple-shooting-SRB/SRB_anim.mp4" width="450" height="450"/>
+	<img src="multiple-shooting-SRB/SRB_anim.gif" width="450" height="450"/>
 </div>
 
 ### Requirements
