@@ -1,5 +1,5 @@
 # underactuated-examples
-This repo contains a collection of coding examples for the course Underactuated Robots
+This repo contains a collection of coding examples for the course [Underactuated Robots](http://www.diag.uniroma1.it/%7Eoriolo/ur_LL/)
 
 ## `floating-base-dynamics`
 
