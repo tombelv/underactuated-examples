@@ -11,9 +11,6 @@ params.delta = 0.02; % Control sampling time
 params.Tc = params.Ts; % Control horizon
 params.N = params.Tc/params.delta;
 
-% params.Ns = params.Ts/params.delta;
-
-
 
 m = 20;
 I = 0.5;
