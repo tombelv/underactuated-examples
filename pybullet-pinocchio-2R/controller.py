@@ -7,22 +7,25 @@ def JointPositionControl(robotModel, q, qdot, qdes):
     Joint position controller implemented via inverse dynamics + PD
     """
 
-    KP = 50
-    KD = 5
+    KP = np.diag([50,50])
+    KD = np.diag([10,10])
     
-    qddot_des = KP*(qdes-q) + KD*(-qdot)    
+    qddot_des = KP@(qdes-q) + KD@(-qdot)    
     torque = pin.rnea(robotModel.model, robotModel.data, q, qdot, qddot_des)
 
     return torque
 
 def EePositionController(robotModel, q, qdot, ee_des):
+    """
+    Position control for the end effector using Jacobian pseudo-inverse
+    and synamic inversion (via RNEA)
+    """
 
-    KP = np.array([[50, 0],[0, 50]])
-    KD = np.array([[5, 0],[0, 5]])
+    KP = np.diag([50,50])
+    KD = np.diag([5,5])
 
     # compute end effector position
-    ee_homo = computeEEpose(robotModel, q)
-    ee_pos = ee_homo.translation[1:3]
+    ee_pos = computeEEpose(robotModel, q).translation[1:3]
 
     ### compute the geometric Jacobian J and dJ/dt
     # update the joint placements according to the current joint configuration
@@ -39,7 +42,7 @@ def EePositionController(robotModel, q, qdot, ee_des):
     
 
     # compute the desired accelleration of the end effector
-    ee_acc = KP@(ee_des - ee_pos) + KD@(-np.dot(Jee, qdot))
+    ee_acc = KP@(ee_des - ee_pos) + KD@(-Jee.dot(qdot))
 
     # desired joint acceleration
     qddot_des = np.linalg.pinv(Jee)@(ee_acc - JeeDot@qdot)
@@ -48,7 +51,14 @@ def EePositionController(robotModel, q, qdot, ee_des):
 
 
 def computeEEpose(robotModel, q):
+    """
+    Computes the end-effector pose as the relative (fictitius) link in the urdf.
+    Pinocchio is used to first update the kinematics data and then extract the 
+    proper frame pose from data
+    """
     pin.forwardKinematics(robotModel.model, robotModel.data, q)
     pin.updateFramePlacements(robotModel.model, robotModel.data)
+    # Find the index of the EE frame in the pinocchio model
     EEid = robotModel.model.getFrameId("end_effector")
+
     return robotModel.data.oMf[EEid]
