@@ -8,8 +8,8 @@ import controller
 
 def simulate():
 
-    simDT = 0.005 # simulation timestep
-    simTime = 100 # total simulation time in seconds
+    simDT = 1/240 # simulation timestep
+    simTime = 25 # total simulation time in seconds
     q0 = np.array([0.5, 0.5]) # initial configuration
 
     robotID, robotModel = sim_utils.simulationSetup(simDT)
@@ -54,7 +54,7 @@ def simulate():
         time.sleep(simDT)
 
 
-    input("press ENTER to END the simulation:")
+    input("press ENTER to CLOSE the simulation:")
 
     pb.disconnect()
 
