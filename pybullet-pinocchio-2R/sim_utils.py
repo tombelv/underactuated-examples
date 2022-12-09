@@ -25,6 +25,7 @@ def simulationSetup(simDT):
     # set gravity and simulation timestep
     pb.setGravity(0,0,-9.81)
     pb.setTimeStep(simDT)
+    pb.setRealTimeSimulation(False)
 
     # load the ground model
     planeId = pb.loadURDF("plane.urdf")
