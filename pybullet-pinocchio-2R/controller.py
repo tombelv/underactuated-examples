@@ -22,7 +22,7 @@ def EePositionController(robotModel, q, qdot, ee_des):
     """
 
     KP = np.diag([50,50])
-    KD = np.diag([5,5])
+    KD = np.diag([10,10])
 
     # compute end effector position
     ee_pos = computeEEpose(robotModel, q).translation[1:3]
@@ -32,13 +32,14 @@ def EePositionController(robotModel, q, qdot, ee_des):
     pin.forwardKinematics(robotModel.model, robotModel.data, q)
     # Computes the full model Jacobian
     pin.computeJointJacobians(robotModel.model, robotModel.data, q)
+    pin.computeJointJacobiansTimeVariation(robotModel.model, robotModel.data, q, qdot)
     # updates the position of each frame contained in the mode
     pin.updateFramePlacements(robotModel.model, robotModel.data)
     # get ID of the end effector
     EEid = robotModel.model.getFrameId("end_effector")
     # Jacobian of the end effector and its derivative
-    Jee = pin.getFrameJacobian(robotModel.model, robotModel.data, EEid, pin.ReferenceFrame.LOCAL)[1:3]
-    JeeDot = pin.computeJointJacobiansTimeVariation(robotModel.model, robotModel.data, q, qdot)[1:3]
+    Jee = pin.getFrameJacobian(robotModel.model, robotModel.data, EEid, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)[1:3]
+    JeeDot = pin.getFrameJacobianTimeVariation(robotModel.model, robotModel.data, EEid, pin.ReferenceFrame.LOCAL_WORLD_ALIGNED)[1:3]
     
 
     # compute the desired accelleration of the end effector
