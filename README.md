@@ -18,7 +18,7 @@ It requires to install
 * pinocchio
 * pybullet
 
-which can be install via 
+which can be installed (on linux) via 
 ```
 pip install pybullet pin
 ```
