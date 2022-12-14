@@ -28,6 +28,9 @@ The example can be executed by running (from the main repo directory):
 python pybullet-pinocchio-2R
 ```
 
+### Notes
+Additional examples on the use of pinocchio can be found in the [Pinocchio documentation](https://gepettoweb.laas.fr/doc/stack-of-tasks/pinocchio/master/doxygen-html/index.html), in this repository containing material for the [Memmo Winter-school](https://github.com/nmansard/wsmemmo_pinocchio) and in the official [cheatsheet](https://github.com/stack-of-tasks/pinocchio/blob/master/doc/pinocchio_cheat_sheet.pdf).
+
 
 ## `multiple-shooting-SRB`
 Example of multiple shooting trajectory optimization for the balancing of a planar single rigid body using contact forces.
