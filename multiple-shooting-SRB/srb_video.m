@@ -7,7 +7,7 @@ pause(1)
 U = [U U(:,end)];
 
 % Number of frames to skip for each rendered frame
-skip = 1;
+skip = 5;
 
 % Length of rectangle (long edge)
 L = 0.6;
@@ -37,18 +37,27 @@ figure('units','pixels','Position', [100 50 dimvideo])
  
 v = VideoWriter("SRB_anim_" + suff_str);
 v.FrameRate = 1/params.delta/skip;
+v.Quality = 95;
+
 open(v);
 
 
+    
+
 for i=1:skip:(length(X) + skip*v.FrameRate)
 
-    clf
+    axis(gca,'equal')
+    xlim([-1 1])
+    ylim([-0.2 1.8])
+    grid on; hold on
+    xlabel("x [m]")
+    ylabel("z [m]")
 
     n = min(length(X),i);
     
     hold on
     
-    srb_rot = rotate(srb, X(5,n)*180/pi);
+    srb_rot = rotate(srb, rad2deg(X(5,n)));
     srb_trans = translate(srb_rot, X([1,3], n)');
 
     plot(srb_trans)
@@ -62,12 +71,6 @@ for i=1:skip:(length(X) + skip*v.FrameRate)
     line([X(1,n),X(1,n)], [0, X(3,n)], 'LineStyle', '--', 'Color', 'k')
     
         
-    axis(gca,'equal')
-    xlim([-1 1])
-    ylim([-0.2 1.8])
-    grid on; hold on
-    xlabel("x [m]")
-    ylabel("z [m]")
     title("$t=$ "+num2str(params.delta*(n-1),'%.2f')+" s", 'FontSize', 18, 'Interpreter', 'latex')
 
     legend(["SRB", "CoM", "SUPPORT POLYGON", "Ground reaction forces"])
@@ -77,7 +80,10 @@ for i=1:skip:(length(X) + skip*v.FrameRate)
     FF = getframe(gcf);
     writeVideo(v,FF);
 
-%     pause
+    pause(0.01)
+
+    clf
+
 
 end
 

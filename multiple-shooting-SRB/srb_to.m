@@ -7,7 +7,7 @@ import casadi.*
 
 
 params.Ts = 3.0; % Total simulation time
-params.delta = 0.02; % Control sampling time
+params.delta = 0.01; % Control sampling time
 params.Tc = params.Ts; % Control horizon
 params.N = params.Tc/params.delta;
 
@@ -67,14 +67,14 @@ F = discretize(f, params.delta, dims);
 uref = SX.sym('uref', nu);
 xref = SX.sym('xref', nx);
 
-Wx = diag([10000 1 0.1 0.1 1 100]);
+Wx = diag([1 1 0.1 0.1 1 100]);
 
 Wfx = 1;
 Wfz = 0.1;
 
 % Objective term
 cost = Wfx*(u(1)^2 + u(3)^2) + Wfz*(u(2) + u(4) - m*g0)^2 +...
-    (x-xref)'*Wx*(x-xref);
+        (x-xref)'*Wx*(x-xref);
 
 L = Function('L', {x, u, xref, uref}, {cost}, {'x','u', 'xref', 'uref'}, {'Lk'});
 
@@ -145,8 +145,8 @@ prob = struct('f', J,... % cost function
               'p', vertcat(nlp_params{:}));
 
 
-opts.ipopt.print_level = false;
-opts.print_time = false;
+% opts.ipopt.print_level = false;
+opts.print_time = true;
 % opts.jit = true;
 opts.expand = true;
 % opts.compiler = 'shell';
@@ -206,12 +206,11 @@ U = casadi.MX.sym('U', nu);
 
 
 X = X0;
-Q = 0;
 for j=1:M
-   [k1] = f(X, U);
-   [k2] = f(X + DT/2 * k1, U);
-   [k3] = f(X + DT/2 * k2, U);
-   [k4] = f(X + DT * k3, U);
+   k1 = f(X, U);
+   k2 = f(X + DT/2 * k1, U);
+   k3 = f(X + DT/2 * k2, U);
+   k4 = f(X + DT * k3, U);
    X=X+DT/6*(k1 +2*k2 +2*k3 +k4);
 end
 
